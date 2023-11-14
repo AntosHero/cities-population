@@ -1,0 +1,31 @@
+{
+  "name": "cities-population",
+  "version": "1.0.0",
+  "description": "small web application for working with population data",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/AntosHero/cities-population.git"
+  },
+  "author": "Hanna Sivazhalezava",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/AntosHero/cities-population/issues"
+  },
+  "homepage": "https://github.com/AntosHero/cities-population#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "save": "^2.9.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "eslint": "^8.53.0",
+    "eslint-plugin-react": "^7.33.2"
+  }
+}
