@@ -1,7 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import http from 'http';
-import { getCities } from './models/cities.js';
+import { getCities, getCitiesSorted } from './models/cities.js';
 
 // import {getCities} from './cities';
 
@@ -27,9 +27,15 @@ app.options('*', function(_, res) {
 	res.send(200);
 });
 
-app.all('/', (req, res) => {
+app.get('/cities', (req, res) => {
 	if (req.method === 'GET') {
-        getCities().then(data => res.send(data));
+		let sort = req.query.sort;
+		let sortOrder = req.query.sortOrder;
+		if(sort && sortOrder) {
+			getCitiesSorted(sort, sortOrder).then(data => res.send(data));
+		} else {
+			getCities().then(data => res.send(data));
+		}
 	}
 });
 
@@ -37,5 +43,5 @@ server.listen(port, (err) => {
 	if (err) {
 		throw err;
 	}
-	console.log('Test');
+	console.log('Server is running on port 8081');
 });
