@@ -29,21 +29,23 @@ app.get('/cities', async(req, res) => {
 	if (req.method === 'GET') {
 		let sort = req.query.sort;
 		let sortOrder = req.query.sortOrder;
-		if(sort && sortOrder) {
+		let contains = req.query.contains;
+		//The default sort order is asc
+		if(sort) {
 			try{
-				const data = await getCitiesSorted(sort, sortOrder);
+				const data = await getCitiesSorted(sort, sortOrder, contains);
 				res.status(200).json({message: 'Success', data});
 			}
 			catch (err) {
-				res.status(err.status).json({message: err.message});
+				res.status(err.status ? err.status : 500).json({message: err.message});
 			}
 		} else {
 			try{
-				const data = await getCities();
+				const data = await getCities(contains);
 				res.status(200).json({message: 'Success', data});
 			}
 			catch (err) {
-				res.status(err.status).json({message: err.message});
+				res.status(err.status ? err.status : 500).json({message: err.message});
 			}
 		}
 	}

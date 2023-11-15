@@ -9,8 +9,12 @@ import * as Utils from '../utils/utils.js'
 // We can work without path, but readFile reads from root, can be hard to debug in large projects
 const dir = path.join('app/api/data', 'cities.json')
 
-export const getCities = async () => {
-    const cities = JSON.parse(await readFile(dir, 'utf8'));
+export const getCities = async (filter) => {
+    let cities = JSON.parse(await readFile(dir, 'utf8'));
+    if (filter) {
+        // it is better to have case insensitive search
+        cities = await cities.filter((city) => city?.name.toLowerCase().includes(filter.toLowerCase()));
+    }
     const result = await getCitiesDensity(cities);
     return result
 }
@@ -22,8 +26,8 @@ const getCitiesDensity = async(cities) => {
     return await Utils.calculateDensity(cities);
 }
 
-export const getCitiesSorted = async (key, sortOrder) => {
-    const cities = await getCities();
+export const getCitiesSorted = async (key, sortOrder, filter) => {
+    const cities = await getCities(filter);
     const result = await sortCities(cities, key, sortOrder);
     return result;
 }

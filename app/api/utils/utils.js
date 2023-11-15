@@ -1,15 +1,16 @@
 // import fs from 'fs'
-import { unsupportedDataType } from "../consts/consts";
+import { unsupportedDataType } from "../consts/consts.js";
 
 export const sortBy = (data, key, order) => {
-    return order === 'asc' ? data.sort(sortWrapper(key)) : data.sort(sortWrapper(key)).reverse()
+    if (!order) order = 'asc';
+    return order === 'asc' ? data.sort(sortWrapper(key)) : data.sort(sortWrapper(key)).reverse();
 }
 
 export const calculateDensity = (data) => {
     return data.map((item) => {
         const area = item?.area;
-        const density = area ? item?.population / area : 'Invalid'
-        return {...item, density: density.toFixed(2) }
+        const density = area ? (item?.population / area).toFixed(2) : 'Invalid'
+        return {...item, density: density }
     })
 }
 
