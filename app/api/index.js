@@ -1,7 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
-import bodyParser from 'body-parser';
 import http from 'http';
+import { getCities } from './models/cities.js';
 
 // import {getCities} from './cities';
 
@@ -14,10 +14,7 @@ export const server = http.Server(app);
 // https://www.npmjs.com/package/helmet
 app.use(helmet());
 
-// bodyParser is a node.js parsing middleware, it should be enough for this application
-// as the data amount is relatively small and not very complex
-// https://www.npmjs.com/package/body-parser
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use((_, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8081');
@@ -32,7 +29,7 @@ app.options('*', function(_, res) {
 
 app.all('/', (req, res) => {
 	if (req.method === 'GET') {
-        res.send('Test')
+        getCities().then(data => res.send(data));
 	}
 });
 
