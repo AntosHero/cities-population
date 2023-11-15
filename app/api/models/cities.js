@@ -3,6 +3,7 @@
 // import cities from '../data/cities.json' assert { type: "json" };
 import { readFile } from 'fs/promises';
 import path from 'path';
+
 import * as Consts from '../consts/consts.js';
 import * as Utils from '../utils/utils.js'
 
@@ -39,5 +40,11 @@ const sortCities = async(cities, key, sortOrder) => {
     return await Utils.sortBy(cities, key, sortOrder);
 }
 
-// function insertCity(item) {}
+export const addCity = async (body) => {
+    const cities = JSON.parse(await readFile(dir, 'utf8'));
+    console.log(cities.push(body));
+    // return cities.push(parsedBody);
+}
+
+
 

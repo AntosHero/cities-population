@@ -1,10 +1,7 @@
 // import fs from 'fs'
-import { unsupportedDataType } from "../consts/consts.js";
 
-export const sortBy = (data, key, order) => {
-    if (!order) order = 'asc';
-    return order === 'asc' ? data.sort(sortWrapper(key)) : data.sort(sortWrapper(key)).reverse();
-}
+import {body} from 'express-validator';
+import * as Consts from '../consts/consts.js';
 
 export const calculateDensity = (data) => {
     return data.map((item) => {
@@ -22,6 +19,11 @@ export const calculateDensity = (data) => {
 //     })
 // }
 
+export const sortBy = (data, key, order) => {
+    if (!order) order = 'asc';
+    return order === 'asc' ? data.sort(sortWrapper(key)) : data.sort(sortWrapper(key)).reverse();
+}
+
 const sortWrapper = (key) => {
     return function(a, b) {
         return sortFields(a[key], b[key])
@@ -34,7 +36,13 @@ const sortFields = (a, b) => {
     } else if (typeof a === 'string') {
         return a.localeCompare(b) ;
     } else {
-        throw Error(unsupportedDataType)
+        throw Error(Consts.unsupportedDataType)
     }
 }
+
+export const schemaValidator = [
+    body('name', 'Shouldn\'t be empty').exists(),
+    body('area', 'Should be number').exists().isNumeric(),
+    body('population', 'Should be number').exists().isNumeric(),
+  ]
 
