@@ -42,8 +42,8 @@ const sortCities = async(cities, key, sortOrder) => {
 
 export const addCity = async (body) => {
     const cities = JSON.parse(await readFile(dir, 'utf8'));
-    console.log(cities.push(body));
-    // return cities.push(parsedBody);
+    await cities.push(body)
+    await Utils.writeJSONFile(dir, cities);
 }
 
 

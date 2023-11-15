@@ -32,7 +32,7 @@ export const postCitiesHandler = async (req, res) => {
     const body = req.body;
     if (body) {
         await addCity(body);
-        return res.status(Consts.success.status).json({message : Consts.success.message});
+        return res.status(Consts.created.status).json({message : Consts.created.message, body});
     } else {
         return res.status(Consts.badRequest.status).json({message : Consts.badRequest.message});
     }

@@ -1,4 +1,4 @@
-// import fs from 'fs'
+import fs from 'fs'
 
 import {body} from 'express-validator';
 import * as Consts from '../consts/consts.js';
@@ -11,13 +11,13 @@ export const calculateDensity = (data) => {
     })
 }
 
-// export const writeJSONFile = (filename, content) => {
-//     fs.writeFileSync(filename, JSON.stringify(content), 'utf8', (err) => {
-//         if (err) {
-//             console.log(err)
-//         }
-//     })
-// }
+export const writeJSONFile = async (filename, content) => {
+    fs.writeFile(filename, JSON.stringify(content), 'utf8', (err) => {
+        if (err) {
+            throw Error(Consts.ioError);
+        }
+    })
+}
 
 export const sortBy = (data, key, order) => {
     if (!order) order = 'asc';
