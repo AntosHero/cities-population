@@ -3,8 +3,6 @@ import helmet from 'helmet';
 import http from 'http';
 import { getCities, getCitiesSorted } from './models/cities.js';
 
-// import {getCities} from './cities';
-
 const app = express()
 const port = 8081
 
@@ -27,14 +25,26 @@ app.options('*', function(_, res) {
 	res.send(200);
 });
 
-app.get('/cities', (req, res) => {
+app.get('/cities', async(req, res) => {
 	if (req.method === 'GET') {
 		let sort = req.query.sort;
 		let sortOrder = req.query.sortOrder;
 		if(sort && sortOrder) {
-			getCitiesSorted(sort, sortOrder).then(data => res.send(data));
+			try{
+				const data = await getCitiesSorted(sort, sortOrder);
+				res.status(200).json({message: 'Success', data});
+			}
+			catch (err) {
+				res.status(err.status).json({message: err.message});
+			}
 		} else {
-			getCities().then(data => res.send(data));
+			try{
+				const data = await getCities();
+				res.status(200).json({message: 'Success', data});
+			}
+			catch (err) {
+				res.status(err.status).json({message: err.message});
+			}
 		}
 	}
 });

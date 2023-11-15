@@ -1,7 +1,16 @@
 // import fs from 'fs'
+import { unsupportedDataType } from "../consts/consts";
 
 export const sortBy = (data, key, order) => {
     return order === 'asc' ? data.sort(sortWrapper(key)) : data.sort(sortWrapper(key)).reverse()
+}
+
+export const calculateDensity = (data) => {
+    return data.map((item) => {
+        const area = item?.area;
+        const density = area ? item?.population / area : 'Invalid'
+        return {...item, density: density.toFixed(2) }
+    })
 }
 
 // export const writeJSONFile = (filename, content) => {
@@ -24,8 +33,7 @@ const sortFields = (a, b) => {
     } else if (typeof a === 'string') {
         return a.localeCompare(b) ;
     } else {
-        throw Error('The sorting is not supported for this data type')
+        throw Error(unsupportedDataType)
     }
-
 }
 
