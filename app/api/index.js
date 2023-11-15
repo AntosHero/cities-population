@@ -11,6 +11,7 @@ import * as Consts from './consts/consts.js';
 const app = express()
 const port = 8081
 
+// this is redundant, but if we need to use https, we cannot use app.listen
 export const server = http.Server(app);
 
 // helmet sets up http response headers
@@ -31,7 +32,7 @@ app.options('*', function(_, res) {
 });
 
 app.use((_, res, next) => {
-	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8081');
+	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');
 	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept');
 	res.setHeader("Content-Type", "application/json");
