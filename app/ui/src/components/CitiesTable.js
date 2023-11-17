@@ -19,9 +19,10 @@ const renderRow = (item) => {
   // astigmatizm might have additional blur)
   const rowStyle = item.population > POPULATION_TRESHOLD ? { width: 300, backgroundColor: '#2196F3', color: 'white' } :
   { width: 300 };
+  const uid = generateId();
   
   return (
-  <tr key={`${item.name}-${generateId}`}>
+  <tr key={`${item.name}-${uid}`}>
     <td style={rowStyle} align="right">
       {item.name}
     </td>
@@ -43,6 +44,10 @@ const generateId = () => `${performance.now()}${Math.random().toString().slice(5
 export const CitiesTable = () => {
   const [citiesList, setCitiesList] = useState([]);
   const [filter, setFilter] = useState('');
+  const [newName, setNewName] = useState('');
+  const [newArea, setNewArea] = useState(0);
+  const [newPopulation, setNewPopulation] = useState(0);
+  const [sendPost, setSendPost] = useState(false);
   
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -66,6 +71,20 @@ export const CitiesTable = () => {
     }
   }, [filter]);
 
+  useEffect(() => {
+    if(sendPost){
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newName, area: newArea, population: newPopulation })
+    };
+    fetch('http://localhost:8081/cities', requestOptions)
+      .then((res) => res.json())
+      .then((resData) => setCitiesList([...citiesList,{...resData?.data}]));
+    setSendPost(false);
+    }
+  }, [sendPost, newArea, newName, newPopulation, citiesList]);
+
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - citiesList.length) : 0;
 
@@ -80,7 +99,9 @@ export const CitiesTable = () => {
 
   return (
     <>
-    <FilterRow filter={filter} setFilter={(e) => setFilter(e)}/>
+    <FilterRow filter={filter} setFilter={(e) => setFilter(e)} newName={newName} setNewName={(e) => setNewName(e)}
+    newArea={newArea} setNewArea={(e) => setNewArea(e)} newPopulation={newPopulation} setNewPopulation={setNewPopulation} 
+    sendPost={sendPost} setSendPost={setSendPost}/>
     <Root sx={{ maxWidth: '100%', width: 1000 }}>
       <table aria-label="table with cities, their area and population info">
         <thead>

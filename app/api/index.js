@@ -1,6 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import http from 'http';
+import cors from 'cors';
 import { expressCspHeader } from 'express-csp-header';
 import {validationResult} from 'express-validator';
 
@@ -19,6 +20,13 @@ export const server = http.Server(app);
 app.use(helmet());
 
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:3000'
+}));
+
+app.use(cors({
+    methods: ['GET','POST','OPTIONS']
+}));
 
 app.use(expressCspHeader({
     policies: {
