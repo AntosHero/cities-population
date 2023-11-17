@@ -4,11 +4,13 @@ import {body} from 'express-validator';
 import * as Consts from '../consts/consts.js';
 
 export const calculateDensity = (data) => {
-    return data.map((item) => {
-        const area = item?.area;
-        const density = area ? (item?.population / area).toFixed(2) : 'Invalid'
-        return {...item, density: density }
-    })
+    return data.map((item) => calculateDensityItem(item))
+}
+
+export const calculateDensityItem = (item) => {
+    const area = item?.area;
+    const density = area ? (item?.population / area).toFixed(2) : 'Invalid'
+    return {...item, density: density }
 }
 
 export const writeJSONFile = async (filename, content) => {

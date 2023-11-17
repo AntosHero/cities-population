@@ -20,7 +20,7 @@ const renderRow = (item) => {
   const rowStyle = item.population > POPULATION_TRESHOLD ? { width: 300, backgroundColor: '#2196F3', color: 'white' } :
   { width: 300 };
   const uid = generateId();
-  
+
   return (
   <tr key={`${item.name}-${uid}`}>
     <td style={rowStyle} align="right">
@@ -60,7 +60,6 @@ export const CitiesTable = () => {
 
   useEffect(() => {
     if (filter){
-      console.log(filter, 2)
       fetch(`http://localhost:8081/cities?contains=${filter}`)
       .then((res) => res.json())
       .then((resData) => setCitiesList(resData?.data))
@@ -80,7 +79,9 @@ export const CitiesTable = () => {
     };
     fetch('http://localhost:8081/cities', requestOptions)
       .then((res) => res.json())
-      .then((resData) => setCitiesList([...citiesList,{...resData?.data}]));
+      .then((resData) => {
+        setCitiesList([...citiesList,{...resData?.body}])
+      });
     setSendPost(false);
     }
   }, [sendPost, newArea, newName, newPopulation, citiesList]);

@@ -1,5 +1,6 @@
 import { getCities, getCitiesSorted, addCity } from '../models/cities.js';
 import * as Consts from '../consts/consts.js';
+import { calculateDensityItem } from '../utils/utils.js';
 
 //This method basically handles all our get requests
 export const getCitiesHandler = async (req, res) => {
@@ -29,7 +30,7 @@ export const getCitiesHandler = async (req, res) => {
 
 //This method will handle our addition of new data
 export const postCitiesHandler = async (req, res) => {
-    const body = req.body;
+    const body = calculateDensityItem(req.body);
     if (body) {
         await addCity(body);
         return res.status(Consts.created.status).json({message : Consts.created.message, body});

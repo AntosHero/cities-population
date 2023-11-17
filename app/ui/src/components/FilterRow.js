@@ -14,8 +14,12 @@ export const FilterRow = ({filter, setFilter, newArea, setNewArea, newName, setN
 
 }) => {
 
-    const onChange = (e, setFunc) => {
-        setFunc(e.target.value);
+    const onChange = (e, setFunc, type) => {
+        if(type === 'num'){
+            setFunc(parseInt(e.target.value))
+        } else {
+            setFunc(e.target.value);
+        }
     }
 
     return (
@@ -32,8 +36,8 @@ export const FilterRow = ({filter, setFilter, newArea, setNewArea, newName, setN
                 <AccordionDetails>
                     <StyledRow>
                     <TextField aria-label='new city name' placeholder='City name is...' value={newName || ''} onChange={(e) => onChange(e, setNewName)}/>
-                    <TextField aria-label='new city area' placeholder='City area is...' value={newArea || ''} onChange={(e) => onChange(e, setNewArea)}/>
-                    <TextField aria-label='new city population' placeholder='City population is...' value={newPopulation || ''} onChange={(e) => onChange(e, setNewPopulation)}/>
+                    <TextField aria-label='new city area' placeholder='City area is...' value={newArea || ''} onChange={(e) => onChange(e, setNewArea, 'num')}/>
+                    <TextField aria-label='new city population' placeholder='City population is...' value={newPopulation || ''} onChange={(e) => onChange(e, setNewPopulation, 'num')}/>
                     <Button variant="contained" disabled={!(newName && newArea && newPopulation)} onClick={() => setSendPost(true)}>Add City</Button>
                     </StyledRow>
                 </AccordionDetails>
