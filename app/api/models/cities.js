@@ -4,7 +4,6 @@
 import { readFile } from 'fs/promises';
 import path from 'path';
 
-import * as Consts from '../consts/consts.js';
 import * as Utils from '../utils/utils.js'
 
 // We can work without path, but readFile reads from root, can be hard to debug in large projects
@@ -15,29 +14,16 @@ export const getCities = async (filter) => {
     if (filter) {
         // it is better to have case insensitive search
         cities = await cities.filter((city) => city?.name.toLowerCase().includes(filter.toLowerCase()));
+        if (cities.length === 0) return [];
     }
-    const result = await getCitiesDensity(cities);
+    const result = await Utils.calculateDensity(cities);
     return result
-}
-
-const getCitiesDensity = async(cities) => {
-    if (cities.length === 0) {
-        throw new Error(Consts.emptyData);
-    }
-    return await Utils.calculateDensity(cities);
 }
 
 export const getCitiesSorted = async (key, sortOrder, filter) => {
     const cities = await getCities(filter);
-    const result = await sortCities(cities, key, sortOrder);
+    const result = await Utils.sortBy(cities, key, sortOrder);
     return result;
-}
-
-const sortCities = async(cities, key, sortOrder) => {
-    if (cities.length === 0) {
-        throw new Error(Consts.emptyData);
-    }
-    return await Utils.sortBy(cities, key, sortOrder);
 }
 
 export const addCity = async (body) => {

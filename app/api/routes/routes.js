@@ -21,7 +21,7 @@ export const getCitiesHandler = async (req, res) => {
 					return res.status(Consts.success.status).json({message : Consts.success.message, data});
 				}
 				catch (err) {
-			res.status(err.status ? err.status : 500).json({message: err.message});
+					res.status(err.status ? err.status : 500).json({message: err.message});
 		}
 	}
 }
