@@ -38,7 +38,7 @@ export const FilterRow = ({filter, setFilter, newArea, setNewArea, newName, setN
                     <TextField aria-label='new city name' placeholder='City name is...' value={newName || ''} onChange={(e) => onChange(e, setNewName)}/>
                     <TextField aria-label='new city area' placeholder='City area is...' value={newArea || ''} onChange={(e) => onChange(e, setNewArea, 'num')}/>
                     <TextField aria-label='new city population' placeholder='City population is...' value={newPopulation || ''} onChange={(e) => onChange(e, setNewPopulation, 'num')}/>
-                    <Button variant="contained" disabled={!(newName && newArea && newPopulation)} onClick={() => setSendPost(true)}>Add City</Button>
+                    <Button aria-label='submit new city' variant="contained" disabled={!(newName && newArea && newPopulation)} onClick={() => setSendPost(true)}>Add City</Button>
                     </StyledRow>
                 </AccordionDetails>
             </Accordion>

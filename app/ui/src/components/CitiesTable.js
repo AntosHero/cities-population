@@ -9,7 +9,7 @@ const tableHeaders = ['name','area', 'population', 'density'];
 const renderLabels = (labels, sortFunc) => {
   return(
     <tr>
-      {labels.map(i => <th key={i} onClick={(e) => sortFunc(e)}>{i}</th>)}
+      {labels.map(i => <th key={i} aria-label={`sort-by-${i}`} onClick={(e) => sortFunc(e)}>{i}</th>)}
     </tr>
   )
 }
