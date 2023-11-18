@@ -72,35 +72,33 @@ npm start
 
 ## Help
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+If for some reason you get ENOENT error when running app, check if you running the nodejs server from the root
 
 ## Authors
 
 Contributors names and contact info
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+Hanna Sivazhalezava 
+sivazhalezava@gmail.com
 
 ## Version History
 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
+* 1.0.0
     * Initial Release
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+This project is unlicensed
 
-## Acknowledgments
-
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+## Needed improvements in future:
+1. Add proper testing (I have jest downloaded, but the tests cases are not written)
+2. More beautiful and intuitive UI
+3. Accessibility updates (not just area label and contrast colors)
+4. Addition of proper BE logging
+5. For actuall application it is better to use database, not just json/csv file. I'd say MongoDB will work well here
+6. If we use the database, we can safely calculate the density and insert the value in the db, not just calculate during runtime
+7. Better safety for the BE
+8. Better error messages for BE
+9. On FE add more modularity to the components
+10. useMemo instead or useEffect might be better
+11. Both FE and BE could benefit from Typescript, but it would be slower to develop.
