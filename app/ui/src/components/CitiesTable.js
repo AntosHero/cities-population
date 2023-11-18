@@ -6,10 +6,10 @@ const POPULATION_TRESHOLD = 1000000;
 
 const tableHeaders = ['name','area', 'population', 'density'];
 
-const renderLabels = (labels) => {
+const renderLabels = (labels, sortFunc) => {
   return(
     <tr>
-      {labels.map(i => <th key={i}>{i}</th>)}
+      {labels.map(i => <th key={i} onClick={(e) => sortFunc(e)}>{i}</th>)}
     </tr>
   )
 }
@@ -48,6 +48,9 @@ export const CitiesTable = () => {
   const [newArea, setNewArea] = useState(0);
   const [newPopulation, setNewPopulation] = useState(0);
   const [sendPost, setSendPost] = useState(false);
+  // sortOrder === true is ascending
+  const [sortOrder, setSortOrder] = useState(true);
+  const [sortingField, setSortingField] = useState('');
   
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -59,16 +62,25 @@ export const CitiesTable = () => {
   }, []);
 
   useEffect(() => {
-    if (filter){
-      fetch(`http://localhost:8081/cities?contains=${filter}`)
-      .then((res) => res.json())
-      .then((resData) => setCitiesList(resData?.data))
-    } else {
-      fetch("http://localhost:8081/cities")
+    let query = 'http://localhost:8081/cities';
+    const filterParam = filter ? `contains=${filter}` : '';
+    const sortParam = sortingField ? `sort=${sortingField}&sortOrder=${sortOrder ? 'asc' : 'desc'}` : '';
+    if (filterParam || sortParam) {
+      query += '?';
+      if(filterParam){
+        query += filterParam;
+      }
+      if(filterParam && sortParam){
+        query += '&';
+      }
+      if(sortParam) {
+        query += sortParam;
+      }
+    }
+    fetch(query)
       .then((res) => res.json())
       .then((resData) => setCitiesList(resData?.data));
-    }
-  }, [filter]);
+  }, [filter, sortOrder, sortingField]);
 
   useEffect(() => {
     if(sendPost){
@@ -98,6 +110,11 @@ export const CitiesTable = () => {
     setPage(0);
   };
 
+  const handleSort = (sortKey) => {
+    setSortOrder(!sortOrder);
+    setSortingField(sortKey.target.textContent);
+  }
+
   return (
     <>
     <FilterRow filter={filter} setFilter={(e) => setFilter(e)} newName={newName} setNewName={(e) => setNewName(e)}
@@ -106,7 +123,7 @@ export const CitiesTable = () => {
     <Root sx={{ maxWidth: '100%', width: 1000 }}>
       <table aria-label="table with cities, their area and population info">
         <thead>
-            {renderLabels(tableHeaders)}
+            {renderLabels(tableHeaders, handleSort)}
         </thead>
         <tbody>
           {(rowsPerPage > 0
